@@ -811,3 +811,199 @@ html { scroll-behavior: smooth; }
     scroll-behavior: auto !important;
   }
 }
+
+/* === Tabular figures for tickers ======================================== */
+.numeric { font-variant-numeric: tabular-nums; }
+
+/* === Morning-queue flank cards ========================================== */
+/* The two little cards that hang off the dashboard's edges need gutter room,
+   so they only appear once there's space beside the centered dashboard. */
+.pom-flank { display: none; }
+@media (min-width: 768px) {
+  .pom-flank { display: block; }
+}
+
+/* === Feature-art section scenes ========================================= */
+/* Mockups wrapped in <MockupStage> play a one-shot "scene" the first time they
+   scroll into view. `.is-armed` is added client-side only, so no-JS users keep
+   the fully-visible static mockup; `.is-in` (added on intersection) is what
+   actually fires the keyframes. Per-element timing comes from the `--fa-d`
+   delay var set inline in FeatureArt. Reduced-motion is collapsed globally
+   (see the block near the top), so those users land on each final frame. */
+
+/* Armed-but-not-yet-in: hide only the elements that animate IN. The colour-only
+   fa-fill pills, the looping fa-dot, and fa-breathe keep their resting look. */
+.pom-fa.is-armed .fa-pop,
+.pom-fa.is-armed .fa-rise,
+.pom-fa.is-armed .fa-slide-l,
+.pom-fa.is-armed .fa-slide-r,
+.pom-fa.is-armed .fa-shake,
+.pom-fa.is-armed .fa-typing {
+  opacity: 0;
+}
+
+.pom-fa.is-armed.is-in .fa-pop {
+  animation: fa-pop-loop 6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-rise {
+  animation: fa-rise-loop 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-slide-l {
+  animation: fa-slide-l-loop 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-slide-r {
+  animation: fa-slide-r-loop 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-shake {
+  animation: fa-shake-loop 6s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-flash-red {
+  animation: fa-flash-red-loop 6s ease infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-fill {
+  animation: fa-fill-loop 6s ease infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+
+/* Greeting card: rise loop + perpetual breathe, in one shorthand so the two
+   don't clobber each other; must out-specify the plain .fa-rise rule above. */
+.pom-fa.is-armed.is-in .fa-rise.fa-breathe {
+  animation:
+    fa-rise-loop 6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s infinite,
+    fa-breathe 3.4s ease-in-out infinite;
+}
+
+/* Typing indicator: slides in, dots bounce, collapses — replays each cycle. */
+.pom-fa .fa-typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pom-wine) 45%, transparent);
+}
+.pom-fa.is-armed.is-in .fa-typing {
+  animation: fa-typing-loop 6s ease infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-typing i {
+  animation: fa-typing-bounce 1s ease-in-out infinite;
+}
+.pom-fa.is-armed.is-in .fa-typing i:nth-child(2) { animation-delay: 0.15s; }
+.pom-fa.is-armed.is-in .fa-typing i:nth-child(3) { animation-delay: 0.3s; }
+
+/* Always-on ambient loops: unread dots pulse, send button nudges. */
+.pom-fa.is-armed.is-in .fa-dot {
+  animation: fa-dot-pulse 1.6s ease-in-out infinite;
+  animation-delay: var(--fa-d, 0s);
+}
+.pom-fa.is-armed.is-in .fa-send {
+  animation: fa-send-nudge 2.6s ease-in-out infinite;
+}
+
+/* Reduced motion: looping keyframes end on a "hidden" frame, so without this
+   those users would see blank mockups. Force the resting visible state. */
+@media (prefers-reduced-motion: reduce) {
+  .pom-fa .fa-pop,
+  .pom-fa .fa-rise,
+  .pom-fa .fa-slide-l,
+  .pom-fa .fa-slide-r,
+  .pom-fa .fa-shake {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .pom-fa .fa-fill {
+    background: var(--pom-wine) !important;
+    color: var(--pom-cream) !important;
+    animation: none !important;
+  }
+  .pom-fa .fa-flash-red,
+  .pom-fa .fa-dot,
+  .pom-fa .fa-send,
+  .pom-fa .fa-breathe { animation: none !important; }
+  .pom-fa .fa-typing { display: none !important; }
+}
+
+@keyframes fa-pop-loop {
+  0%   { opacity: 0; transform: scale(0.6); }
+  5%   { opacity: 1; transform: scale(1.08); }
+  9%   { transform: scale(1); }
+  88%  { opacity: 1; transform: scale(1); }
+  96%  { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+@keyframes fa-rise-loop {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.98); }
+  8%   { opacity: 1; transform: translateY(0) scale(1); }
+  88%  { opacity: 1; transform: translateY(0) scale(1); }
+  97%  { opacity: 0; transform: translateY(10px) scale(0.98); }
+  100% { opacity: 0; transform: translateY(14px) scale(0.98); }
+}
+@keyframes fa-slide-l-loop {
+  0%   { opacity: 0; transform: translateX(-22px) translateY(6px); }
+  8%   { opacity: 1; transform: translateX(0) translateY(0); }
+  88%  { opacity: 1; transform: translateX(0) translateY(0); }
+  97%  { opacity: 0; transform: translateX(-16px); }
+  100% { opacity: 0; transform: translateX(-22px) translateY(6px); }
+}
+@keyframes fa-slide-r-loop {
+  0%   { opacity: 0; transform: translateX(22px) translateY(6px); }
+  8%   { opacity: 1; transform: translateX(0) translateY(0); }
+  88%  { opacity: 1; transform: translateX(0) translateY(0); }
+  97%  { opacity: 0; transform: translateX(16px); }
+  100% { opacity: 0; transform: translateX(22px) translateY(6px); }
+}
+@keyframes fa-shake-loop {
+  0%   { opacity: 0; transform: translateX(0); }
+  4%   { opacity: 1; transform: translateX(0); }
+  6%   { transform: translateX(-4px); }
+  8%   { transform: translateX(4px); }
+  10%  { transform: translateX(-3px); }
+  12%  { transform: translateX(0); }
+  88%  { opacity: 1; transform: translateX(0); }
+  97%  { opacity: 0; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(0); }
+}
+@keyframes fa-flash-red-loop {
+  0%   { border-color: color-mix(in srgb, var(--pom-wine) 25%, transparent); color: color-mix(in srgb, var(--pom-wine) 35%, transparent); transform: scale(1); }
+  6%   { border-color: var(--pom-red); color: var(--pom-red-deep); transform: scale(1.06); }
+  14%  { border-color: color-mix(in srgb, var(--pom-wine) 25%, transparent); color: color-mix(in srgb, var(--pom-wine) 35%, transparent); transform: scale(1); }
+  100% { border-color: color-mix(in srgb, var(--pom-wine) 25%, transparent); color: color-mix(in srgb, var(--pom-wine) 35%, transparent); transform: scale(1); }
+}
+@keyframes fa-fill-loop {
+  0%   { background: color-mix(in srgb, var(--pom-wine) 8%, transparent); color: color-mix(in srgb, var(--pom-wine) 45%, transparent); transform: scale(0.9); }
+  6%   { transform: scale(1.06); }
+  11%  { background: var(--pom-wine); color: var(--pom-cream); transform: scale(1); }
+  88%  { background: var(--pom-wine); color: var(--pom-cream); transform: scale(1); }
+  97%  { background: color-mix(in srgb, var(--pom-wine) 8%, transparent); color: color-mix(in srgb, var(--pom-wine) 45%, transparent); }
+  100% { background: color-mix(in srgb, var(--pom-wine) 8%, transparent); color: color-mix(in srgb, var(--pom-wine) 45%, transparent); transform: scale(0.9); }
+}
+@keyframes fa-typing-loop {
+  0%   { opacity: 0; transform: translateY(6px); max-height: 0; }
+  3%   { opacity: 1; transform: translateY(0); max-height: 44px; }
+  13%  { opacity: 1; max-height: 44px; }
+  18%  { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin-top: -8px; }
+  100% { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin-top: -8px; }
+}
+@keyframes fa-typing-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%      { transform: translateY(-3px); opacity: 1; }
+}
+@keyframes fa-dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--pom-red) 55%, transparent); }
+  50%      { transform: scale(1.18); opacity: 0.85; box-shadow: 0 0 0 5px color-mix(in srgb, var(--pom-red) 0%, transparent); }
+}
+@keyframes fa-send-nudge {
+  0%, 86%, 100% { transform: translateX(0); }
+  91%           { transform: translateX(2px); }
+  96%           { transform: translateX(-1px); }
+}
+@keyframes fa-breathe {
+  0%, 100% { transform: translateY(0); box-shadow: 0 6px 0 -2px var(--pom-wine); }
+  50%      { transform: translateY(-2px); box-shadow: 0 9px 0 -2px var(--pom-wine); }
+}

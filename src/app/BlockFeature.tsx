@@ -1,4 +1,4 @@
-import { RiveCanvas } from "@/app/RiveCanvas";
+import type { ReactNode } from "react";
 import { Reveal } from "@/app/Reveal";
 import { cn } from "@/app/utils";
 
@@ -7,8 +7,8 @@ type BlockFeatureProps = {
   tag: string;
   heading: string;
   paragraph: string;
-  riveSrc: string;
-  ariaLabel?: string;
+  /** The illustration panel rendered in the media slot (a CSS/SVG mockup). */
+  media: ReactNode;
   mediaAspect?: string;
 };
 
@@ -17,8 +17,7 @@ export function BlockFeature({
   tag,
   heading,
   paragraph,
-  riveSrc,
-  ariaLabel,
+  media,
   mediaAspect = "594/458",
 }: BlockFeatureProps) {
   const textFromDir = layout === "text-media" ? "right" : "left";
@@ -47,11 +46,8 @@ export function BlockFeature({
       </Reveal>
 
       <Reveal from={mediaFromDir} amount={40} duration={900} delay={120}>
-        <div
-          className="w-full max-w-[600px] mx-auto md:mx-0"
-          style={{ aspectRatio: mediaAspect }}
-        >
-          <RiveCanvas src={riveSrc} ariaLabel={ariaLabel ?? heading} />
+        <div className="w-full max-w-[600px] mx-auto md:mx-0" style={{ aspectRatio: mediaAspect }}>
+          {media}
         </div>
       </Reveal>
     </section>

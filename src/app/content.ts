@@ -5,8 +5,8 @@ export interface BlockFeatureContent {
   tag: string;
   heading: string;
   paragraph: string;
-  riveSrc: string;
-  riveStateMachine?: string;
+  /** The illustration panel rendered in the media slot (a CSS/SVG mockup). */
+  media: import("react").ReactNode;
 }
 
 export interface HeroContent {
