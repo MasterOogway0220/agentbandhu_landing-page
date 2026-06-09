@@ -29,7 +29,7 @@ export function PhoneFrame(props: PhoneFrameProps) {
   return (
     <div
       className={cn(
-        "relative aspect-[850/1290] w-full overflow-hidden rounded-[14%/9%] bg-[var(--pom-wine)] shadow-[0_24px_60px_-20px_rgba(58,0,29,0.45)]",
+        "relative aspect-[850/1290] w-full overflow-hidden rounded-[14%/9%] bg-[var(--pom-wine)] shadow-[0_24px_60px_-20px_color-mix(in_srgb,var(--pom-wine)_45%,transparent)]",
         "border-[6px] border-[var(--pom-wine)]",
         "ring-[3px] ring-[var(--pom-wine)]/30",
         "className" in props && props.className

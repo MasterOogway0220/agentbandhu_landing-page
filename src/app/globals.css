@@ -29,6 +29,67 @@
   );
 }
 
+/* === Theme: Sunrise Glow (/template-one, palette1) ========================= */
+/* Scoped to .theme-sunrise on <main>; overrides the :root tokens for the whole
+   subtree so every component re-skins automatically. */
+.theme-sunrise {
+  --pom-wine: rgb(35, 61, 77);          /* charcoal-blue — ink */
+  --pom-red: rgb(254, 127, 45);         /* pumpkin-spice — brand */
+  --pom-red-deep: rgb(216, 100, 26);    /* derived darker pumpkin */
+  --pom-pink: rgb(161, 193, 129);       /* muted-olive — soft accent */
+  --pom-pink-deep: rgb(97, 155, 138);   /* seagrass — mobile menu panel */
+
+  --status-amber-soft: rgb(252, 236, 196);
+  --status-amber-ink: rgb(143, 84, 16);
+  --status-emerald-soft: rgb(227, 239, 212);
+  --status-emerald-ink: rgb(70, 107, 58);
+
+  --pom-bg: rgb(251, 246, 236);         /* warm near-white — page */
+  --pom-cream: rgb(246, 239, 221);      /* card surface / light text on dark */
+  --pom-peach: rgb(241, 228, 192);      /* pale gold — card gradient end */
+  --pom-yellow: rgb(252, 202, 70);      /* golden-pollen — CTA */
+  --pom-white: rgb(255, 255, 255);
+
+  --pom-hero-gradient: linear-gradient(
+    180deg,
+    rgb(246, 239, 221) 0%,
+    rgb(246, 239, 221) 50%,
+    rgb(241, 228, 192) 100%
+  );
+}
+
+/* === Theme: Oceanic Sunburst (/template-two, palette2) ===================== */
+.theme-oceanic {
+  --pom-wine: rgb(17, 41, 107);         /* imperial-blue — ink */
+  --pom-red: rgb(0, 80, 157);           /* steel-azure — brand */
+  --pom-red-deep: rgb(0, 60, 117);      /* derived darker azure */
+  --pom-pink: rgb(207, 224, 242);       /* derived light azure — soft accent */
+  --pom-pink-deep: rgb(42, 108, 176);   /* derived mid azure — mobile menu panel */
+
+  --status-amber-soft: rgb(255, 241, 194);
+  --status-amber-ink: rgb(138, 109, 0);
+  --status-emerald-soft: rgb(212, 236, 225);  /* derived teal-green (palette has no green) */
+  --status-emerald-ink: rgb(29, 107, 83);
+
+  --pom-bg: rgb(245, 246, 248);         /* near-platinum — page */
+  --pom-cream: rgb(237, 237, 237);      /* platinum — card surface / light text */
+  --pom-peach: rgb(221, 231, 243);      /* derived soft blue — card gradient end */
+  --pom-yellow: rgb(255, 219, 87);      /* mustard — CTA */
+  --pom-white: rgb(255, 255, 255);
+
+  --pom-hero-gradient: linear-gradient(
+    180deg,
+    rgb(237, 237, 237) 0%,
+    rgb(237, 237, 237) 50%,
+    rgb(221, 231, 243) 100%
+  );
+}
+
+/* Themed routes also paint the viewport edges (overscroll / rubber-band),
+   since <html>/<body> otherwise inherit the original :root --pom-bg. */
+html:has(.theme-sunrise), body:has(.theme-sunrise) { background: rgb(251, 246, 236); }
+html:has(.theme-oceanic), body:has(.theme-oceanic) { background: rgb(245, 246, 248); }
+
 @theme inline {
   --color-wine: var(--pom-wine);
   --color-red-brand: var(--pom-red);
@@ -262,7 +323,7 @@ h1, h2, h3, h4, h5, h6 {
     0 5px 0 var(--pom-wine),
     0 6px 0 var(--pom-wine),
     0 7px 0 var(--pom-wine),
-    0 8px 14px rgba(58, 0, 29, 0.35);
+    0 8px 14px color-mix(in srgb, var(--pom-wine) 35%, transparent);
   paint-order: stroke fill;
 }
 
@@ -273,7 +334,7 @@ h1, h2, h3, h4, h5, h6 {
     0 2px 0 var(--pom-wine),
     0 3px 0 var(--pom-wine),
     0 4px 0 var(--pom-wine),
-    0 5px 8px rgba(58, 0, 29, 0.3);
+    0 5px 8px color-mix(in srgb, var(--pom-wine) 30%, transparent);
 }
 
 /* Soft pulse used for the pomegranate brand icon entrance */
